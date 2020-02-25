@@ -114,6 +114,13 @@ BLS_DLL_API void blsGetPublicKey(blsPublicKey *pub, const blsSecretKey *sec);
 // calculate the has of m and sign the hash
 BLS_DLL_API void blsSign(blsSignature *sig, const blsSecretKey *sec, const void *m, mclSize size);
 
+BLS_DLL_API int blsPublicKeyToG1(const blsPublicKey *pub, mclBnG1 *x);
+BLS_DLL_API int blsG1ToPublicKey(const mclBnG1 *x, blsPublicKey *pub);
+BLS_DLL_API int blsPublicKeyToG2(const blsPublicKey *pub, mclBnG2 *x);
+BLS_DLL_API int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub);
+BLS_DLL_API void blsSecretKeyToFr(const blsSecretKey *sec, mclBnFr *s);
+BLS_DLL_API void blsFrToSecretKey(const mclBnFr *s, blsSecretKey *sec);
+
 // return 1 if valid
 BLS_DLL_API int blsVerify(const blsSignature *sig, const blsPublicKey *pub, const void *m, mclSize size);
 

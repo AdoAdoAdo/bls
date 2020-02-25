@@ -163,6 +163,8 @@ extern "C" BLS_DLL_API void blsFree(void *p)
 
 static inline const mclBnG1 *cast(const G1* x) { return (const mclBnG1*)x; }
 static inline const mclBnG2 *cast(const G2* x) { return (const mclBnG2*)x; }
+static inline mclBnG1 *cast(G1* x) { return (mclBnG1*)x;}
+static inline mclBnG2 *cast(G2* x) { return (mclBnG2*)x;}
 
 void blsIdSetInt(blsId *id, int x)
 {
@@ -184,6 +186,83 @@ int blsSecretKeySetLittleEndianMod(blsSecretKey *sec, const void *buf, mclSize b
 void blsGetPublicKey(blsPublicKey *pub, const blsSecretKey *sec)
 {
 	Gmul(*cast(&pub->v), getBasePoint(), *cast(&sec->v));
+}
+
+#ifdef BLS_SWAP_G
+int blsPublicKeyToG1(const blsPublicKey *pub, mclBnG1 *x)
+{
+    G1 *xg;
+    xg = cast(x);
+    *xg = *cast(&pub->v);
+    return 0;
+}
+
+int blsG1ToPublicKey(const mclBnG1 *x, blsPublicKey *pub)
+{
+    const G1 *xg;
+    xg = cast(x);
+    *cast(&pub->v) = *xg;
+    return 0;
+}
+
+int blsPublicKeyToG2(const blsPublicKey *pub, mclBnG2 *x)
+{
+    (void)pub;
+    (void)x;
+    return -1;
+}
+
+int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub)
+{
+    (void)pub;
+    (void)x;
+    return -1;
+}
+#else
+
+int blsPublicKeyToG1(const blsPublicKey *pub, mclBnG1 *x)
+{
+    (void)pub;
+    (void)x;
+    return -1;
+}
+
+int blsG1ToPublicKey(const mclBnG1 *x, blsPublicKey *pub)
+{
+    (void)pub;
+    (void)x;
+    return -1;
+}
+
+int blsPublicKeyToG2(const blsPublicKey *pub, mclBnG2 *x)
+{
+    G2 *xg;
+    xg = cast(x);
+    *xg = *cast(&pub->v);
+    return 0;
+}
+
+int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub)
+{
+    const G2 *xg;
+    xg = cast(x);
+    *cast(&pub->v) = *xg;
+    return 0;
+}
+#endif
+
+void blsSecretKeyToFr(const blsSecretKey *sec, mclBnFr *s)
+{
+    Fr *sf;
+    sf = cast(s);
+    *sf = *cast(&sec->v);
+}
+
+void blsFrToSecretKey(const mclBnFr *s, blsSecretKey *sec)
+{
+    const Fr *sf;
+    sf = cast(s);
+    *cast(&sec->v) = *sf;
 }
 
 int blsHashToSignature(blsSignature *sig, const void *buf, mclSize bufSize)
