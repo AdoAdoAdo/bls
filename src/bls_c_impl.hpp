@@ -251,6 +251,36 @@ int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub)
     (void)x;
     return -1;
 }
+
+int blsSignatureToG1(const blsSignature *sig, mclBnG1 *x)
+{
+    (void)sig;
+    (void)x;
+    return -1;
+}
+
+int blsG1ToSignature(const mclBnG1 *x, blsSignature *sig)
+{
+    (void)sig;
+    (void)x;
+    return -1;
+}
+
+int blsSignatureToG2(const blsSignature *sig, mclBnG2 *x)
+{
+    G2 *xg;
+    xg = cast(x);
+    *xg = *cast(&sig->v);
+    return 0;
+}
+
+int blsG2ToSignature(const mclBnG2 *x, blsSignature *sig)
+{
+    const G2 *xg;
+    xg = cast(x);
+    *cast(&sig->v) = *xg;
+    return 0;
+}
 #else
 
 int blsPublicKeyToG1(const blsPublicKey *pub, mclBnG1 *x)
@@ -281,6 +311,36 @@ int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub)
     xg = cast(x);
     *cast(&pub->v) = *xg;
     return 0;
+}
+
+int blsSignatureToG1(const blsSignature *sig, mclBnG1 *x)
+{
+    G1 *xg;
+    xg = cast(x);
+    *xg = *cast(&sig->v);
+    return 0;
+}
+
+int blsG1ToSignature(const mclBnG1 *x, blsSignature *sig)
+{
+    const G1 *xg;
+    xg = cast(x);
+    *cast(&sig->v) = *xg;
+    return 0;
+}
+
+int blsSignatureToG2(const blsSignature *sig, mclBnG2 *x)
+{
+    (void)sig;
+    (void)x;
+    return -1;
+}
+
+int blsG2ToSignature(const mclBnG2 *x, blsSignature *sig)
+{
+    (void)sig;
+    (void)x;
+    return -1;
 }
 #endif
 

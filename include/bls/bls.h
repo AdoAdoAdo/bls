@@ -129,8 +129,12 @@ BLS_DLL_API void blsSign(blsSignature *sig, const blsSecretKey *sec, const void 
 
 BLS_DLL_API int blsPublicKeyToG1(const blsPublicKey *pub, mclBnG1 *x);
 BLS_DLL_API int blsG1ToPublicKey(const mclBnG1 *x, blsPublicKey *pub);
+BLS_DLL_API int blsSignatureToG1(const blsSignature *sig, mclBnG1 *x);
+BLS_DLL_API int blsG1ToSignature(const mclBnG1 *x, blsSignature *sig);
 BLS_DLL_API int blsPublicKeyToG2(const blsPublicKey *pub, mclBnG2 *x);
 BLS_DLL_API int blsG2ToPublicKey(const mclBnG2 *x, blsPublicKey *pub);
+BLS_DLL_API int blsSignatureToG2(const blsSignature *sig, mclBnG2 *x);
+BLS_DLL_API int blsG2ToSignature(const mclBnG2 *x, blsSignature *sig);
 BLS_DLL_API void blsSecretKeyToFr(const blsSecretKey *sec, mclBnFr *s);
 BLS_DLL_API void blsFrToSecretKey(const mclBnFr *s, blsSecretKey *sec);
 
